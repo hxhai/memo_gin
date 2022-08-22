@@ -13,6 +13,7 @@ import (
 func NewRouter() *gin.Engine { //返回gin引擎
 	e := gin.Default() //创建实例
 	store := cookie.NewStore([]byte("something-very-secret"))
+	//注入中间件
 	e.Use(sessions.Sessions("mysesion", store))
 	v1 := e.Group("api/v1")
 	{
@@ -25,6 +26,7 @@ func NewRouter() *gin.Engine { //返回gin引擎
 		//使用将中间件添加到组
 		authed.Use(middleware.JWT())
 		{
+			//创建备忘录
 			authed.POST("task", api.CreateTask)
 			//展示备忘录
 			authed.GET("task/:id", api.ShowTask)

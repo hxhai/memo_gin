@@ -47,6 +47,7 @@ func (service *CreateTaskService) Create(id uint) serializer.Response {
 		StarTime: time.Now().Unix(),
 		EndTime:  0,
 	}
+	//在数据库中创建该条备忘录信息
 	err := model.DB.Create(&task).Error
 	if err != nil {
 		code = 500
@@ -87,6 +88,9 @@ func (service *ListTaskService) List(uid uint) serializer.Response {
 	if service.PageSize == 0 {
 		service.PageSize = 15
 	}
+	if service.PageNum == 0 {
+		service.PageNum = 1
+	}
 	model.DB.Model(&model.Task{}).Preload("User").Where("uid=?", uid).Count(&count).
 		Limit(service.PageSize).Offset((service.PageNum - 1) * service.PageSize).Find(&tasks)
 	return serializer.BuildListResponse(serializer.BuildTasks(tasks), uint(count))
@@ -116,6 +120,9 @@ func (service *SearchTaskService) Search(uid uint) serializer.Response {
 	count := 0
 	if service.PageSize == 0 {
 		service.PageSize = 10
+	}
+	if service.PageNum == 0 {
+		service.PageNum = 1
 	}
 	model.DB.Model(&model.Task{}).Preload("User").Where("uid=?", uid).
 		Where("title LIKE ? OR content LIKE ?", "%"+service.Info+"%", "%"+service.Info+"%").

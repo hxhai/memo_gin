@@ -5,7 +5,7 @@ import (
 	"memo_gin/service"
 
 	"github.com/gin-gonic/gin"
-	"github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus" //推荐日志依赖
 )
 
 //创建备忘录

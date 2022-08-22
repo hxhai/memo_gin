@@ -14,15 +14,17 @@ type UserService struct {
 	Password string `form:"password" json:"password" binding:"required,min=5,max=16"`
 }
 
+//用户注册
 func (service *UserService) Register() serializer.Response {
 	var user model.User
 	var count int
+	//查找该用户是否存在于数据库
 	model.DB.Model(user).Where("user_name=?", service.UserName).
 		First(&user).Count(&count) //First:查找与给定条件匹配的第一条记录,Count:计数
 	if count == 1 {
 		return serializer.Response{
 			Status: 400,
-			Msg:    "用户名重复",
+			Msg:    "用户名重复，不能重复注册",
 		}
 	}
 	user.UserName = service.UserName
@@ -50,6 +52,7 @@ func (service *UserService) Register() serializer.Response {
 	}
 }
 
+//用户登录
 func (service *UserService) Login() serializer.Response {
 	var user model.User
 	//数据库查找是否有这条用户信息

@@ -17,7 +17,7 @@ func JWT() gin.HandlerFunc {
 		if token == "" {
 			code = 404
 		} else {
-			claim, err := utils.ParseToken(token)
+			claim, err := utils.ParseToken(token) //验证token
 			fmt.Printf("claim: %v\n", claim)
 			if err != nil {
 				code = 403 //token无权限，是假的

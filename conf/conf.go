@@ -20,6 +20,7 @@ var (
 )
 
 func Init() {
+	//加载配置文件
 	file, err := ini.Load("./conf/config.ini")
 	if err != nil {
 		fmt.Println("配置文件读取错误!检查文件路径！")
@@ -28,6 +29,7 @@ func Init() {
 	LoadMysql(file)
 	//mysql连接路径拼接
 	path := strings.Join([]string{DbUser, ":", DbPassWord, "@tcp(", DbHost, ":", DbPort, ")/", DbName, "?charset=utf8&parseTime=True&loc=Local"}, "")
+	//数据库连接
 	model.Database(path)
 }
 

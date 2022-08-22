@@ -11,9 +11,9 @@ import (
 
 var DB *gorm.DB
 
-func Database(connstring string) {
-	fmt.Printf("connstring: %v\n", connstring) //root:root@tcp(127.0.0.1:3306)/memo_list_db?charset=utf8&parseTime=True&loc=Local
-	db, err := gorm.Open("mysql", connstring)
+func Database(path string) {
+	fmt.Printf("path: %v\n", path) //root:root@tcp(127.0.0.1:3306)/memo_list_db?charset=utf8&parseTime=True&loc=Local
+	db, err := gorm.Open("mysql", path)
 	if err != nil {
 		fmt.Printf("err: %v\n", err)
 		panic("mysql数据库连接错误！")
